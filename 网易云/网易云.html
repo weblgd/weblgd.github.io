@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{margin: 0;padding: 0;}
+        body{
+            width: 100%;
+            position: relative;
+        }
+        #bg{
+            width: 500px;
+            height: 900px;
+            overflow: hidden;
+            position: relative;
+            left: 0;
+            right: 0;
+            margin: auto;
+        }
+        .blur {
+            filter: blur(0px);
+            -webkit-filter: blur(0px); 
+            -ms-filter: blur(0px);
+            -moz-filter: blur(0px); 
+        }
+
+        .name{
+            height: 50px;
+            width: 300px;
+            position: absolute;
+            top: 0;
+            left: 25%;
+        }
+        p{
+            margin-left: 85px;
+            width: 400px;
+            line-height: 50px;
+            font-size: 35px;
+            color: #fff;
+        }
+        .name img{
+            position: absolute;
+            left: 100px;
+            transform-origin: 0% 0%;
+        }
+        .name div{
+            width: 100%;
+            height: 2px;
+            background-color: #fff;
+        }
+
+
+        #hj{
+            width: 350px;
+            height: 350px;
+            border-radius:50%;
+            background-color: #000;
+            overflow: hidden;
+            float: left;
+            position: absolute;
+            top: 15%;
+            left: 15%;
+        }
+        #hj > img {
+            width: 230px;
+            height: 230px;
+            background-color: #fff;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            border-radius: 50%;
+        }
+
+        .muise{
+            position: absolute;
+            bottom: 15%;
+            left: 20%;
+            height: 150px;
+        }
+        .btn1{
+            position: absolute;
+            bottom: 0;
+            left: 55%;
+            width: 35px;
+            height: 35px;
+        }
+        .btn2{
+            position: absolute;
+            bottom: 0;
+            left: 35%;
+            width: 35px;
+            height: 35px;
+        }
+        .btn3{
+            position: absolute;
+            bottom: 0;
+            left: 75%;
+            width: 35px;
+            height: 35px;
+        }
+        .btn4{
+            position: absolute;
+            bottom: 0;
+            left: 15%;
+            width: 35px;
+            height: 35px;
+        }
+        .btnj{
+            position: absolute;
+            bottom: 0;
+            left: -5%;
+            width: 35px;
+            height: 35px;
+        }
+        .btni{
+            position: absolute;
+            bottom: 0;
+            left: 95%;
+            width: 35px;
+            height: 35px;
+        }
+
+        .wf{
+            position: absolute;
+            bottom: 35%;
+            left: 25%;
+            width: 300px;
+            height: 30px;
+            overflow: hidden;
+        }
+        ul{
+            margin-left: 0px;
+        }
+        li{
+            color: azure;
+            list-style: none;
+            font-size: 20px;
+            line-height: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div id="bg">
+        <img src="./背景111.jpg" alt="" class="blur">
+        <div id="hj">
+            <img src="./转.png" alt="">
+        </div>
+        <div class="name">
+            <p>歌曲名</p>
+            <div></div>
+            <img src="./杆杆.png" alt="">
+        </div>
+        <div class="muise">
+            <audio src="./孙盛希 - 单身≠失恋.mp3" id="audio" controls="controls" ></audio>
+            <div>
+                <img src="./播放按钮/播放.png" alt="" class="btn1">
+                <img src="./播放按钮/暂停.png" alt="" class="btn2">
+                <img src="./播放按钮/快进.png" alt="" class="btn3">
+                <img src="./播放按钮/快退.png" alt="" class="btn4">
+                <img src="./播放按钮/加.png" alt="" class="btnj">
+                <img src="./播放按钮/减.png" alt="" class="btni">
+            </div>
+        </div>
+        <div class="wf"> 
+            <ul>
+                <li>流行音乐在线听,劲爆音乐在线听,音乐在线听流行音乐在线听,劲爆音乐在线听,音乐在线听</li>
+                <li>流行音乐在线听,劲爆音乐在线听,音乐在线听流行音乐在线听,劲爆音乐在线听,音乐在线听</li>
+            </ul>
+        </div>
+    </div>
+<script>
+    var audio = document.querySelector('audio')
+
+    var btn1 = document.querySelector('.btn1')
+    var btn2 = document.querySelector('.btn2')
+    var btn3 = document.querySelector('.btn3')
+    var btn4 = document.querySelector('.btn4')
+    var btnj = document.querySelector('.btnj')
+    var btni = document.querySelector('.btni')
+    var li1 = document.querySelector('ul')
+
+    var hj = document.querySelector('#hj')
+    var gg = document.querySelector('.name img')
+
+    var num = 1
+    var num2 = 1
+    var e = e
+    var r = r
+    btn1.onclick = function () {
+        gg.style.transform = "rotate(20deg)"
+        gg.style.transition = "linear 1s"
+
+            clearInterval(e)
+        e = setInterval(function(){
+            num++
+            hj.style.transform = "rotate("+num+"deg)"
+        },20)
+
+         
+        
+
+	    if(audio.paused){
+		audio.play();
+        }
+    }
+    btn2.onclick = function () {
+        clearInterval(e)
+        clearInterval(r)
+        gg.style.transform = "rotate(-20deg)"
+        if(audio.play){
+		audio.pause ();
+        }
+    }
+    
+    btn3.onclick = function(){
+        audio.currentTime += 15
+    }
+
+    btn4.onclick = function(){
+        audio.currentTime -= 15
+    }
+    btnj.onclick = function(){
+		var volume = audio.volume  + 0.1;
+		if(volume >=1 ){
+			volume = 1 ;
+		
+		}
+		audio.volume =  volume;
+    }
+    btni.onclick = function(){
+		var volume = audio.volume  - 0.1;
+        if(volume <=0 ){
+			volume = 0 ;
+		}
+		audio.volume =  volume;
+    }
+
+
+    window.onload = function(){
+        var  num = 0
+        setInterval(function(){
+            num -= 1
+            if (num <= -480) {
+            num = 0
+        }
+            li1.style.marginLeft = num + 'px'
+            // console.log(num);
+        }, 50);
+    }
+</script>
+</body>
+</html>

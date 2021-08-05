@@ -1,0 +1,29 @@
+<img height="500" src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F1bd9f911554e2f4328cb00ee9558c793384fe0133abb-RWCPsT_fw658&refer=http%3A%2F%2Fhbimg.b0.upaiyun.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1630480917&t=e21826bf75339fc9ea49ab03db249aa4" data="./imgs/1.jpg" alt=""> <hr />
+<img height="500" src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F1bd9f911554e2f4328cb00ee9558c793384fe0133abb-RWCPsT_fw658&refer=http%3A%2F%2Fhbimg.b0.upaiyun.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1630480917&t=e21826bf75339fc9ea49ab03db249aa4" data="./imgs/2.jpg" alt=""><hr />
+<img height="500" src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F1bd9f911554e2f4328cb00ee9558c793384fe0133abb-RWCPsT_fw658&refer=http%3A%2F%2Fhbimg.b0.upaiyun.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1630480917&t=e21826bf75339fc9ea49ab03db249aa4" data="./imgs/3.jpg" alt=""><hr />
+<img height="500" src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F1bd9f911554e2f4328cb00ee9558c793384fe0133abb-RWCPsT_fw658&refer=http%3A%2F%2Fhbimg.b0.upaiyun.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1630480917&t=e21826bf75339fc9ea49ab03db249aa4" data="./imgs/4.jpg" alt=""><hr />
+<img height="500" src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F1bd9f911554e2f4328cb00ee9558c793384fe0133abb-RWCPsT_fw658&refer=http%3A%2F%2Fhbimg.b0.upaiyun.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1630480917&t=e21826bf75339fc9ea49ab03db249aa4" data="./imgs/5.jpg" alt=""><hr />
+
+
+<script>
+    let t
+    function lazyload() {
+        if(t) return
+        t = setTimeout (() => {
+            let h1 = window.innerHeight || document.documentElement.clientHeight
+            let h2 = document.documentElement.scrollTop || document.body.scrollTop
+            let showTotalHeight = h1 + h2
+            let imgs = document.querySelectorAll('img')
+            imgs.forEach((item, index) => {
+                let imgTop = item.offsetTop
+                if(imgTop <= showTotalHeight){
+                    item.src = item.getAttribute('data')
+                }
+            })
+            t = null
+        },500)
+    }
+    window.onscroll = lazyload
+
+    lazyload()
+</script>

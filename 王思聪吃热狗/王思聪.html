@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+/*     
+       *{margin: 0;padding: 0;}
+        body{
+            width: 100%;
+            height: 100%;
+            position: relative;
+             overflow: hidden;
+        }
+        #cc{
+            position: fixed;
+            bottom: 0;
+            width: 70px;
+            height: 70px;
+        }
+        .imgs{
+            position: fixed;
+            width: 30px;
+            height: 50px;
+            top: 0;
+        }
+        .jb{
+            position: fixed;
+            width: 30px;
+            height: 50px;
+            top: 0;
+        }
+
+        .p1{
+            width: 200px;
+            height: 100px;
+            background-color:chocolate;
+            color: #000;
+            line-height: 100px;
+            text-align: center;
+            font-size: 70px;
+            float: left;
+        }
+        .p2{
+            width: 200px;
+            height: 100px;
+            background-color:chocolate;
+            color: #000;
+            line-height: 100px;
+            text-align: center;
+            font-size: 70px;
+            float: right;
+        } */
+        html, body, div, span, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+abbr, address, cite, code,
+del, dfn, em, img, ins, kbd, q, samp,
+small, strong, sub, sup, var, 
+b, i,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section, summary,
+time, mark, audio, video {
+    margin:0;
+    padding:0;
+    border:0;
+    outline:0;
+    font-size:100%;
+    vertical-align:baseline;
+    background:transparent;
+}
+
+html,body {
+    height: 100%;
+    overflow: hidden;
+    -webkit-touch-callout:none; /*系统默认菜单被禁用*/
+    -webkit-user-select:none; /*webkit浏览器*/
+    -khtml-user-select:none; /*早期浏览器*/
+    -moz-user-select:none;/*火狐*/
+    -ms-user-select:none; /*IE10*/
+    user-select:none;
+}
+
+.play-panel {display:none; width: 250px;height: 180px;border: solid 2px black;position: fixed;left: 50%;top: 50%;transform: translate(-50%, -50%);text-align: center}
+.play-panel .start {display:none;}
+.play-panel .start .btn {border:solid 2px black; display: inline-block; padding: 10px;font-weight: 700;margin-top:65px;}
+.play-panel .start .btn:hover {cursor: pointer; color: yellow; background-color: #000;}
+.play-panel .stop {display:none;}
+.play-panel .title,.score {font-weight: 700;font-size: 26px;margin:15px 0px;}
+.play-panel .stop .btn {border:solid 2px black; display: inline-block; padding: 10px;font-weight: 700;}
+.play-panel .stop .btn:hover {cursor: pointer; color: yellow; background-color: #000;}
+
+.game-score {position: fixed;top:0px;width:100%;}
+.game-score h1:nth-of-type(1) {float: left;}
+.game-score h1:nth-of-type(2) {float: right;}
+
+.wsc {width: 70px;height: 70px;position: fixed;bottom:0px;left: 0px;}
+.hotdog {width: 20px;height: 50px;position: fixed;top:200px;left: 10px;}
+.guanjun {width: 40px;height: 70px;position: fixed;top:100px;left: 80px;}
+.show-score {position: fixed; z-index: 2; width: auto; height: 20px; text-align: center; left: 50px; bottom: 70px; font-weight: 700; font-size: 18px; animation:scale 1s ease;}
+
+@keyframes scale
+{
+    0%   {transform: scale(0.8)}
+    50%  {transform: scale(1.5)}
+    100% {transform: scale(1)}
+}
+
+    </style>
+</head>
+<body>  
+    <img class="wsc" src="./image/sicong.jpg" alt="王思聪">
+    <div class="play-panel">
+      <div class="start"><span class="btn">❥开始游戏</span></div>
+      <div class="stop">
+        <div class="title">游戏结束</div>
+        <div class="score">60分</div>
+        <div class="btn">※重新开始※</div>
+      </div>
+    </div>
+    
+    <div class="game-score">
+      <h1>剩余时间<span>20</span>秒</h1>
+      <h1>0分</h1>
+    </div>
+</body>
+<script>
+  function random(min, max) {
+    return Math.floor( Math.random() * (max-min+1)+min ) 
+  }
+
+  // ### 全局变量
+  let wscObj =  document.querySelector('.wsc')
+  let score = 0
+  let wscX = 0
+  let wscY = (window.innerHeight||document.documentElement.clientHeight) - wscObj.offsetHeight
+  
+  function startFoodPlay() 
+  {
+      return setInterval(() => {
+        // 初始化数据
+        let imgObj = document.createElement('img')
+
+        // 食物出现概率
+        let who = random(0,9) 
+        
+        // 判断出现食物
+        if ([6,8].includes(who))
+        {
+          imgObj.className = 'food guanjun'
+          imgObj.src = './image/cup.jpg'
+          imgObj.setAttribute('type', 'guanjun')
+        } else {
+          imgObj.className = 'food hotdog'
+          imgObj.src = './image/hotdog.jpg'
+          imgObj.setAttribute('type', 'hotdog')
+      }
+
+      // 追加食物到页面
+      let min = 0
+      let max = (window.innerWidth || document.documentElement.clientWidth) - imgObj.offsetWidth
+      imgObj.style.left = random(min, max) + 'px'
+      imgObj.style.top = '0px'
+      document.body.appendChild(imgObj)
+    }, 1000)
+  }
+  let foodT = startFoodPlay() // 首次开始
+
+  setInterval(() => {
+    // 获取所有食物
+    let foods = document.querySelectorAll('.food')
+    foods.forEach((item, index) => { 
+      let top = parseInt(item.style.top) + 2
+      let maxTop = (window.height || document.documentElement.clientHeight) - item.offsetHeight
+      if (top >= maxTop) {
+        document.body.removeChild(item)
+      } else {
+        item.style.top = top + 'px'
+      }
+
+      let foodX = parseInt(item.style.left)
+      let foodY = parseInt(item.style.top) + item.offsetHeight
+      if ( 
+        (foodX>wscX && foodX<=(wscX+wscObj.offsetWidth))
+        &&
+        foodY>wscY
+      ) {
+        let type = item.getAttribute('type')
+        
+        type == 'guanjun' ? score+=5 : score++
+        console.log(`食物坐标【${foodX},${foodY}】，王公子坐标【${wscX+wscObj.offsetWidth},${wscY+wscObj.offsetHeight}】，+1，总分【${score}}】`);
+        document.querySelector('.game-score h1:nth-of-type(2)').innerText = `+${score}分`
+        document.body.removeChild(item) 
+        
+        let divObj = document.createElement('div')
+        divObj.className = 'show-score'
+        divObj.innerText = type == 'guanjun' ? '+5' : '+1' 
+        divObj.style.left = wscX+wscObj.offsetWidth + 'px'
+        document.body.appendChild(divObj)
+        setTimeout(() => document.body.removeChild(divObj), 1000)
+      }
+      
+    })
+  })
+
+  
+  // ### 安排王公子
+  
+  document.onmousemove = function(evt) {
+    // 获取事件对象
+    let e = evt || window.event
+    // 限定left最大0 最大网页宽度-王公子宽度
+    let wscObj = document.querySelector('.wsc')
+    let left = e.clientX - wscObj.offsetWidth/2
+    let maxLeft = (window.innerWidth || document.documentElement.clientWidth) - wscObj.offsetWidth
+    if (left<0) left = 0
+    if (left>=maxLeft) left = maxLeft
+    wscObj.style.left = left + 'px'
+
+    // 重置王公子坐标
+    wscX = left
+  }
+
+
+  // ### 吃食物
+  
+
+
+  // ### 结束游戏
+  let time = 220
+  function startTimePlay() 
+  {
+    return setInterval(() => {
+      time--
+      let gameScoreObj = document.querySelector('.game-score span')
+      if (time>=0) {
+        gameScoreObj.innerText = time
+      }else {
+        
+        clearInterval(gameT) 
+        clearInterval(foodT) 
+        time = 20        
+        
+        let payPanel = document.querySelector('.play-panel')
+        let payPanelStop = payPanel.querySelector('.stop')
+        payPanel.querySelector('.score').innerText = score+'分'
+        payPanel.style.display =  payPanelStop.style.display = 'block'
+      }
+    }, 1000)
+  }
+  let gameT = startTimePlay() 
+
+ 
+  // ### 重新开始游戏
+  let startBtn = document.querySelector('.play-panel .stop .btn')
+  startBtn.onclick = function() {
+    score = 0             
+    document.querySelector('.game-score h1:nth-of-type(2)').innerText = `+${score}分`
+    foodT = startFoodPlay() 
+    gameT = startTimePlay()
+    let payPanel = document.querySelector('.play-panel')
+    let payPanelStop = payPanel.querySelector('.stop')
+    payPanel.style.display =  payPanelStop.style.display = 'none'
+  }
+
+
+//     function random(min, max){
+//         return Math.floor(Math.random() * (max - min+1) + min)
+//     }
+//     let wscObj = document.querySelector('.wsc')
+//     var p1 = document.querySelector('.p1')
+//     var p2 = document.querySelector('.p2')
+
+    
+    
+//     let score = 0
+//     var wscX = 0
+//     var wscY = (window.innerHeight||document.documentElement.clientHeight) - wscObj.offsetHeight
+
+// //生成食物
+//     function foodsc (){
+//         return setInterval(() => {
+//             let imgs = document.createElement('img')
+//             let who = random(0 , 9)
+
+//             if ([6,8].includes(who)) {
+//                 imgs.className = 'food jb'
+//                 imgs.src = './image/cup.jpg'
+//                 imgs.setAttribute('type', 'jb')
+//             }else{
+//                 imgs.className = 'food imgs'
+//                 imgs.src = './image/hotdog.jpg'
+//                 imgs.setAttribute('type', 'imgs')
+//             }
+
+//             let min = 0
+//             let max = (window.innerWidth || document.documentElement.clientWidth) - imgs.offsetWidth
+//             imgs.style.left = random(min, max) + 'px'
+//             imgs.style.top = '0px'
+//             document.body.appendChild(imgs)
+//         },1000)
+//     }
+//     let foods = foodsc()
+
+
+// //食物掉落
+//     setInterval(() => {
+//         let foodAll = document.querySelectorAll('.food')
+//         foodAll.forEach((item, index) => {
+//             let top = parseInt(item.style.top) + 2
+//             let maxTop = (window.height || document.documentElement.clientHeight) - item.offsetHeight
+//             if (top >= maxTop) {
+//                 document.body.removeChild(item)
+//             }else{
+//                 item.style.top = top + 'px'
+//             }
+//             let foodX = parseInt(item.style.left)
+//       let foodY = parseInt(item.style.top) + item.offsetHeight
+//       if ( 
+//         (foodX>wscX && foodX<=(wscX+wscObj.offsetWidth))
+//         &&
+//         foodY>wscY
+//       ) {
+//         let type = item.getAttribute('type')
+//         // score++
+//         type == 'guanjun' ? score+=5 : score++
+//         console.log(`食物坐标【${foodX},${foodY}】，王公子坐标【${wscX+wscObj.offsetWidth},${wscY+wscObj.offsetHeight}】，+1，总分【${score}}】`);
+//         document.querySelector('.game-score h1:nth-of-type(2)').innerText = `+${score}分`
+//         document.body.removeChild(item) 
+        
+//         // 提示 <div class="show-score">+1</div>
+//         let divObj = document.createElement('div')
+//         divObj.className = 'show-score'
+//         divObj.innerText = type == 'guanjun' ? '+5' : '+1' 
+//         divObj.style.left = wscX+wscObj.offsetWidth + 'px'
+//         // divObj.style.bottom = wscY+wscObj.offsetHeight + 'px'
+//         document.body.appendChild(divObj)
+//         setTimeout(() => document.body.removeChild(divObj), 1000)
+//       }
+      
+//     })
+//   })
+
+// //失聪移动
+//     document.onmousemove = function(evt) {
+//         let e = evt || window.event
+        
+//         let wscObj = document.querySelector('.wsc')
+//         let left = e.clientX - wscObj.offsetWidth/2
+//         let maxLeft = (window.innerWidth || document.documentElement.clientWidth) - wscObj.offsetWidth
+//         if (left<0) left = 0
+//         if (left>=maxLeft) left = maxLeft
+//         wscObj.style.left = left + 'px'
+
+//         wscX = left
+//     }
+
+
+// //失聪吃食
+
+//     let time = 4
+//     function cstTime() {
+//         return setInterval(() => {
+//             time--
+//             let p1 = document.querySelector('.p1')
+//             if (time >= 0) {
+//                 p1.innerText = time
+//             }else{
+//                 clearInterval(gameT)
+//                 clearInterval(foods)
+//                 time = 4
+//                 let payPanel = document.querySelector('.play-panel')
+//                 let payPanelStop = payPanel.querySelector('.stop')
+//                 payPanel.querySelector('.score').innerText = score+'分'
+//                 payPanel.style.display =  payPanelStop.style.display = 'block'
+//             }
+//         },1000)
+//     }
+//     let gameT = cstTime()
+
+
+//         let startBtn = document.querySelector('.play-panel .stop .btn')
+//     startBtn.onclick = function() {
+//         // 清空分数
+//         score = 0             
+//         document.querySelector('.game-score h1:nth-of-type(2)').innerText = `+${score}分`
+//         // 开始游戏
+//         gameT = startFoodPlay() 
+//         foodAll = startTimePlay()
+//         // 开启面板
+//         let payPanel = document.querySelector('.play-panel')
+//         let payPanelStop = payPanel.querySelector('.stop')
+//         payPanel.style.display =  payPanelStop.style.display = 'none'
+//     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//     // window.onload  = () => {
+//     //     seti()
+        
+        
+
+
+//     //     document.onmousemove = (e) => {
+//     //         var n = e || window.event
+//     //         var l = n.clientX - cc.offsetWidth
+//     //         if (l < 0) l = 0
+//     //         if (l > n.clientWidth - cc.offsetLeft) l = n.clientWidth - cc.offsetLeft
+//     //         cc.style.left = l + 'px'
+        
+//     //     }
+//     // }
+
+//     // seti = () => {
+//     //     setInterval (() => {
+//     //         // var l = document.clientX - cc.offsetWidth
+//     //         // var w = (window.innerWidth || document.documentElement.clientWidth) - width
+//     //         imgs = document.createElement('img')
+//     //         imgs.className = 'imgs'
+//     //         imgs.src = "./image/hotdog.jpg"
+//     //         imgs.style.left = Math.floor(Math.random() * ((document.body.clientWidth - 30) - 0 + 1) + 0) + 'px'
+//     //         document.body.appendChild(imgs)
+//     //         setTimeout(() => {
+//     //             setInterval(() => {
+//     //                 imgs.style.top = 950 + 'px'
+//     //                 if (imgs.style.Top > 800  + 'px') {
+//     //                 console.log('ss');
+//     //             } 
+//     //             },50)
+//     //         },10)
+//     //     },1000)
+//     // }
+
+//     // setInterval(() => {
+//     //     num++ 
+//     //     p1.innerText = num
+//     // },1000)
+    
+</script>
+</html>
